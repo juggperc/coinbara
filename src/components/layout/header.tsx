@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import * as React from 'react';
-import { Bone, Settings2, Copy, Check, RefreshCw, Sparkles } from 'lucide-react';
+import { Bone, Settings2, Copy, Check, RefreshCw, Sparkles, LayoutGrid, List } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
@@ -10,13 +10,16 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 interface HeaderProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
+  view: 'grid' | 'list';
+  onViewChange: (view: 'grid' | 'list') => void;
 }
 
-export function Header({ activeTab, onTabChange }: HeaderProps) {
+export function Header({ activeTab, onTabChange, view, onViewChange }: HeaderProps) {
   const { publicKey, connected } = useWallet();
   const { connection } = useConnection();
   const [balance, setBalance] = React.useState<number | null>(null);
@@ -56,6 +59,14 @@ export function Header({ activeTab, onTabChange }: HeaderProps) {
     }, 1000);
     return () => clearInterval(interval);
   }, [lastUpdated]);
+
+  // Sync lastUpdated timer with 15s interval (simulated)
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setLastUpdated(new Date());
+    }, 15000);
+    return () => clearInterval(interval);
+  }, []);
 
   const copyAddress = () => {
     if (publicKey) {
@@ -99,6 +110,22 @@ export function Header({ activeTab, onTabChange }: HeaderProps) {
       </div>
 
       <div className="flex items-center gap-4">
+        {activeTab === 'chew' && (
+          <ToggleGroup 
+            type="single" 
+            value={view} 
+            onValueChange={(v) => v && onViewChange(v as any)} 
+            className="bg-capy-tan/5 p-1 rounded-xl border border-capy-tan/5 mr-2"
+          >
+            <ToggleGroupItem value="grid" className="h-7 w-9 px-0 rounded-md">
+              <LayoutGrid size={14} />
+            </ToggleGroupItem>
+            <ToggleGroupItem value="list" className="h-7 w-9 px-0 rounded-md">
+              <List size={14} />
+            </ToggleGroupItem>
+          </ToggleGroup>
+        )}
+
         {connected && (
           <div className="flex items-center gap-3">
             <div className="flex flex-col items-end">
