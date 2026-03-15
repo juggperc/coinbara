@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import * as React from 'react';
-import { Bone, Settings2, Copy, Check, RefreshCw } from 'lucide-react';
+import { Bone, Settings2, Copy, Check, RefreshCw, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
@@ -10,12 +10,15 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
-import { useSWRConfig } from 'swr';
 
-export function Header() {
+interface HeaderProps {
+  activeTab: string;
+  onTabChange: (tab: string) => void;
+}
+
+export function Header({ activeTab, onTabChange }: HeaderProps) {
   const { publicKey, connected } = useWallet();
   const { connection } = useConnection();
-  const { cache } = useSWRConfig();
   const [balance, setBalance] = React.useState<number | null>(null);
   const [isFetching, setIsFetching] = React.useState(false);
   const [copied, setCopied] = React.useState(false);
@@ -54,16 +57,6 @@ export function Header() {
     return () => clearInterval(interval);
   }, [lastUpdated]);
 
-  // Sync timer with SWR refreshes
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      // Check if any chew data is fresh in cache
-      // This is a simple way to detect refreshes from SWR
-      setLastUpdated(new Date());
-    }, 15000); // Match SWR refresh interval
-    return () => clearInterval(interval);
-  }, []);
-
   const copyAddress = () => {
     if (publicKey) {
       navigator.clipboard.writeText(publicKey.toBase58());
@@ -87,11 +80,15 @@ export function Header() {
       </div>
 
       <div className="flex items-center gap-6 flex-1 justify-center">
-        <Tabs defaultValue="chew" className="max-w-[160px]">
+        <Tabs value={activeTab} onValueChange={onTabChange} className="max-w-[240px]">
           <TabsList className="w-full h-9 rounded-lg bg-capy-tan/5 border border-capy-tan/5">
             <TabsTrigger value="chew" className="flex-1 gap-2 h-7 text-[11px] font-bold rounded-md">
               <Bone size={14} />
               Chew
+            </TabsTrigger>
+            <TabsTrigger value="burrow" className="flex-1 gap-2 h-7 text-[11px] font-bold rounded-md">
+              <Sparkles size={14} />
+              Burrow
             </TabsTrigger>
           </TabsList>
         </Tabs>
