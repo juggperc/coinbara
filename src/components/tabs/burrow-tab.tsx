@@ -204,7 +204,7 @@ export function BurrowTab() {
             <Button 
               type="submit" 
               size="icon" 
-              disabled={isLoading || !input.trim()}
+              disabled={isLoading || !input?.trim()}
               className="h-12 w-12 rounded-[1.5rem] bg-capy-dark hover:bg-capy-brown text-white shadow-lg transition-all active:scale-90"
             >
               <Send size={18} />
