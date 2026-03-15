@@ -60,7 +60,6 @@ export function Header({ activeTab, onTabChange, view, onViewChange }: HeaderPro
     return () => clearInterval(interval);
   }, [lastUpdated]);
 
-  // Sync lastUpdated timer with 15s interval (simulated)
   React.useEffect(() => {
     const interval = setInterval(() => {
       setLastUpdated(new Date());
@@ -77,7 +76,7 @@ export function Header({ activeTab, onTabChange, view, onViewChange }: HeaderPro
   };
 
   return (
-    <header className="flex items-center justify-between px-6 py-3 border-b border-capy-tan/10 bg-white sticky top-0 z-50 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+    <header className="flex items-center justify-between px-6 py-3 border-b border-capy-tan/10 bg-white sticky top-0 z-50">
       <div className="flex items-center gap-3">
         <div className="relative w-8 h-8">
           <Image
@@ -91,13 +90,13 @@ export function Header({ activeTab, onTabChange, view, onViewChange }: HeaderPro
       </div>
 
       <div className="flex items-center gap-6 flex-1 justify-center">
-        <Tabs value={activeTab} onValueChange={onTabChange} className="max-w-[240px]">
-          <TabsList className="w-full h-9 rounded-lg bg-capy-tan/5 border border-capy-tan/5">
-            <TabsTrigger value="chew" className="flex-1 gap-2 h-7 text-[11px] font-bold rounded-md">
+        <Tabs value={activeTab} onValueChange={onTabChange} className="max-w-[200px]">
+          <TabsList className="w-full h-9">
+            <TabsTrigger value="chew" className="flex-1 gap-2 h-7">
               <Bone size={14} />
               Chew
             </TabsTrigger>
-            <TabsTrigger value="burrow" className="flex-1 gap-2 h-7 text-[11px] font-bold rounded-md">
+            <TabsTrigger value="burrow" className="flex-1 gap-2 h-7">
               <Sparkles size={14} />
               Burrow
             </TabsTrigger>
@@ -117,10 +116,10 @@ export function Header({ activeTab, onTabChange, view, onViewChange }: HeaderPro
             onValueChange={(v) => v && onViewChange(v as any)} 
             className="bg-capy-tan/5 p-1 rounded-xl border border-capy-tan/5 mr-2"
           >
-            <ToggleGroupItem value="grid" className="h-7 w-9 px-0 rounded-md">
+            <ToggleGroupItem value="grid" className="h-7 w-9 px-0 border border-transparent">
               <LayoutGrid size={14} />
             </ToggleGroupItem>
-            <ToggleGroupItem value="list" className="h-7 w-9 px-0 rounded-md">
+            <ToggleGroupItem value="list" className="h-7 w-9 px-0 border border-transparent">
               <List size={14} />
             </ToggleGroupItem>
           </ToggleGroup>
@@ -135,7 +134,7 @@ export function Header({ activeTab, onTabChange, view, onViewChange }: HeaderPro
                 ) : (
                   <span className="text-[11px] font-black">{balance?.toFixed(3) || '0.000'} SOL</span>
                 )}
-                <div className="w-1.5 h-1.5 rounded-full bg-capy-green shadow-[0_0_8px_rgba(129,199,132,0.6)]" />
+                <div className="w-1.5 h-1.5 rounded-full bg-capy-green" />
               </div>
               <button 
                 onClick={copyAddress}
@@ -149,10 +148,7 @@ export function Header({ activeTab, onTabChange, view, onViewChange }: HeaderPro
         )}
         
         <div className="relative group">
-          <div className={cn(
-            "absolute -inset-0.5 rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-1000",
-            connected ? "bg-capy-green" : "bg-gradient-to-r from-[#AB9FF2] to-[#6E56CF]"
-          )} />
+          <div className="absolute -inset-0.5 rounded-xl blur opacity-10 group-hover:opacity-30 transition duration-1000 bg-capy-brown" />
           <div className="relative">
             <WalletMultiButton className="!bg-white !text-capy-dark !h-9 !px-4 !rounded-xl !text-[11px] !font-black !border !border-capy-tan/20 !shadow-sm !transition-all hover:!bg-capy-tan/5 !font-sans" />
           </div>

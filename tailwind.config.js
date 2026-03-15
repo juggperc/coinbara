@@ -8,18 +8,19 @@ module.exports = {
     extend: {
       colors: {
         capy: {
-          brown: '#C08E5C',
-          tan: '#DDB892',
-          green: '#81C784',
-          gold: '#F7B500',
-          bg: '#FFFBF5',
-          dark: '#3E2723',
+          brown: '#8B5E3C', // Deeper, more professional brown
+          tan: '#F5E6D3',   // Cleaner, warmer tan
+          green: '#2D6A4F', // Forest green for high contrast
+          gold: '#D4A373',  // Muted metallic gold
+          bg: '#FFFFFF',    // Pure white background
+          dark: '#1A1A1A',  // Near black for sharp text
+          accent: '#E9EDC9', // Soft moss accent
         },
       },
       borderRadius: {
-        lg: '1rem',
-        md: '0.75rem',
-        sm: '0.5rem',
+        '3xl': '1.25rem', // Reduced from 2rem+
+        '2xl': '1rem',
+        'xl': '0.75rem',
       },
     },
   },
